@@ -26,11 +26,13 @@ class Teachers(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String())
     classes = db.Column(ARRAY(db.String))
+    primary = db.Column(db.Boolean(), default=True)
 
-    def __init__(self, id, name, classes):
+    def __init__(self, id, name, classes, primary):
         self.id = id
         self.name = name
         self.classes = classes
+        self.primary = primary
 
     def __repr__(self):
         return '<id {}>'.format(self.id)
