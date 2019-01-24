@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <title>Teachers</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" media="screen">
+
+    <style>
+      .container {
+        max-width: 1000px;
+      }
+    </style>
+
+  </head>
+  <body>
+    <div class="container">
+
+      <h1>Enter Teachers</h1>
+
+      <form id="teacher-form">
+
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="teacher-name">Name</label>
+            <input type="text" class="form-control teacher-name" placeholder="E.g. Irma Lazarus">
+          </div>
+
+          <div class="form-group col-md-6">
+            <label for="eligible-classes">Eligible Classes</label>
+            <input type="text" class="form-control eligible-classes" placeholder="E.g. Canning, Botulism Awareness">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <input type="checkbox" class="full-time">
+            <label for="full-time">Full-time?</label>
+          </div>
+        </div>
+
+      </form>
+
+      <button class="btn btn-primary" id="add-teacher">Add teacher</button>
+      <button class="btn btn-primary" id="submit-teacher-form">Submit</button>
+
+      <br>
+
+      {% for error in errors %}
+        <h4>{{ error }}</h4>
+      {% endfor %}
+
+    </div>
+
+    <script src="//code.jquery.com/jquery-2.2.1.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="/static/index.js" type="text/javascript"></script>
+
+  </body>
+</html>

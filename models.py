@@ -20,7 +20,7 @@ class Result(db.Model):
 '''
 
 
-class Teachers(db.Model):
+class Teacher(db.Model):
     __tablename__ = 'teachers'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -28,8 +28,7 @@ class Teachers(db.Model):
     classes = db.Column(ARRAY(db.String))
     primary = db.Column(db.Boolean(), default=True)
 
-    def __init__(self, id, name, classes, primary):
-        self.id = id
+    def __init__(self, name, classes, primary):
         self.name = name
         self.classes = classes
         self.primary = primary
