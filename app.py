@@ -18,7 +18,7 @@ def toBoolean(string):
 
 
 @app.route('/add_teachers', methods=['GET', 'POST'])
-def index():
+def add_teachers():
     errors = []
     print("In index")
     if request.method == "POST":
@@ -44,7 +44,7 @@ def index():
             print(e)
             print("Could not add to database")
 
-    return render_template('index.html', errors=errors)
+    return render_template('add_teachers.html', errors=errors)
 
 
 @app.route("/<name>")
