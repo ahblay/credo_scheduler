@@ -10,7 +10,7 @@ db = SQLAlchemy(app)
 from models import Teacher
 
 
-def toBoolean(string):
+def to_boolean(string):
     if string == "true":
         return True
     else:
@@ -32,7 +32,7 @@ def add_teachers():
             for teacher in teacher_data:
                 name = teacher[0]
                 classes = teacher[1].split(", ")
-                primary = toBoolean(teacher[2])
+                primary = to_boolean(teacher[2])
                 result = Teacher(
                     name=name,
                     classes=classes,
@@ -45,6 +45,11 @@ def add_teachers():
             print("Could not add to database")
 
     return render_template('add_teachers.html', errors=errors)
+
+
+@app.route('/prefs')
+def enter_prefs():
+    return render_template('prefs.html')
 
 
 @app.route("/<name>")

@@ -1,0 +1,45 @@
+.header {
+    grid-area: header;
+}
+
+.sidebar {
+    grid-area: sidebar;
+}
+
+.main {
+    grid-area: main;
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+    grid-template-rows: 50% 50%;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 20% 80%;
+    grid-template-rows: 80px auto;
+    grid-template-areas:
+        "header header"
+        "sidebar main";
+}
+
+.margin {
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.prefer {
+    background-color: green;
+}
+
+.indifferent {
+    background-color: yellow;
+}
+
+.reject {
+    background-color: red;
+}
+
+.teachers > li:hover {
+    background-color: #f7f7f7;
+}
