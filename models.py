@@ -20,7 +20,7 @@ class Result(db.Model):
 '''
 
 
-class Teacher(db.Model):
+class Teachers(db.Model):
     __tablename__ = 'teachers'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -32,6 +32,25 @@ class Teacher(db.Model):
         self.name = name
         self.classes = classes
         self.primary = primary
+
+    def __repr__(self):
+        return '<id {}>'.format(self.id)
+
+
+class Classes(db.Model):
+    __tablename__ = 'classes'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String())
+    subject = db.Column(db.String())
+    year = db.Column(db.Integer())
+    teachers = db.Column(ARRAY(db.String))
+
+    def __init__(self, name, subject, year, teachers):
+        self.name = name
+        self.subject = subject
+        self.year = year
+        self.teachers = teachers
 
     def __repr__(self):
         return '<id {}>'.format(self.id)

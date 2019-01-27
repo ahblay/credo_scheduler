@@ -7,7 +7,7 @@ app.config.from_object(os.environ['APP_SETTINGS'])
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-from models import Teacher
+from models import Teachers
 
 
 def to_boolean(string):
@@ -33,7 +33,7 @@ def add_teachers():
                 name = teacher[0]
                 classes = teacher[1].split(", ")
                 primary = to_boolean(teacher[2])
-                result = Teacher(
+                result = Teachers(
                     name=name,
                     classes=classes,
                     primary=primary
