@@ -4,7 +4,7 @@ $(".classes > li").click(togglePref);
 console.log($("#class-prefs").data("class-prefs"));
 
 var prefs;
-if ($("#class-prefs").data("class-prefs") === {}) {
+if ($.isEmptyObject($("#class-prefs").data("class-prefs"))) {
     console.log("In if statement.")
     prefs = {};
 } else {
