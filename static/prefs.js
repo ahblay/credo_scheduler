@@ -46,18 +46,42 @@ function togglePref() {
     }
     else if ($(this).hasClass("prefer")) {
         $(this).removeClass("prefer").addClass("indifferent");
+        if (currentTeacher in prefs) {
+            prefs[currentTeacher][course] = 0;
+        } else {
+            prefs[currentTeacher] = {};
+            prefs[currentTeacher][course] = 0;
+        }
         submitPrefs(currentTeacher, course, 0);
     }
     else if ($(this).hasClass("indifferent")) {
         $(this).removeClass("indifferent").addClass("reject");
+        if (currentTeacher in prefs) {
+            prefs[currentTeacher][course] = -1;
+        } else {
+            prefs[currentTeacher] = {};
+            prefs[currentTeacher][course] = -1;
+        }
         submitPrefs(currentTeacher, course, -1);
     }
     else if ($(this).hasClass("reject")) {
         $(this).removeClass("reject").addClass("prefer");
+        if (currentTeacher in prefs) {
+            prefs[currentTeacher][course] = 1;
+        } else {
+            prefs[currentTeacher] = {};
+            prefs[currentTeacher][course] = 1;
+        }
         submitPrefs(currentTeacher, course, 1);
     }
     else {
         $(this).addClass("prefer");
+        if (currentTeacher in prefs) {
+            prefs[currentTeacher][course] = 1;
+        } else {
+            prefs[currentTeacher] = {};
+            prefs[currentTeacher][course] = 1;
+        }
         submitPrefs(currentTeacher, course, 1);
     }
 }
