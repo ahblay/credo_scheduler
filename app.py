@@ -52,11 +52,19 @@ def add_classes():
 
 @app.route('/prefs', methods=['GET', 'POST'])
 def enter_prefs():
-    prefs = {}
+    class_prefs = {}
     if request.method == 'GET':
         # get preference data from database
-        prefs = ClassPrefs.query.all()
-        print(prefs)
+        prefs = ClassPrefs.query.order_by(ClassPrefs.teacher_name).all()
+        for pref in prefs:
+            print(pref.teacher_name, pref.class_name, pref.pref)
+            if pref.teacher_name in class_prefs:
+                class_prefs[pref.teacher_name][pref.class_name] = pref.pref
+            else:
+                class_prefs[pref.teacher_name] = {}
+                class_prefs[pref.teacher_name][pref.class_name] = pref.pref
+        print(class_prefs)
+
     if request.method == 'POST':
         # post updated preferences to database
         teacher_name = request.form["teacher"]
@@ -66,9 +74,9 @@ def enter_prefs():
         print(teacher_name, class_name, pref)
 
         try:
-            toUpdate = ClassPrefs.query.filter_by(teacher_name=teacher_name, class_name=class_name).all()
-            print(toUpdate)
-            if not toUpdate:
+            to_update = ClassPrefs.query.filter_by(teacher_name=teacher_name, class_name=class_name).first()
+            print(to_update)
+            if not to_update:
                 result = ClassPrefs(
                     teacher_name=teacher_name,
                     class_name=class_name,
@@ -77,14 +85,14 @@ def enter_prefs():
                 db.session.add(result)
                 db.session.commit()
             else:
-                toUpdate.pref = pref
+                to_update.pref = pref
                 print("Updated database with pref data.")
                 db.session.commit()
         except Exception as e:
             print(e)
             print("Could not update database.")
 
-    return render_template('prefs.html', prefs=prefs)
+    return render_template('prefs.html', prefs=class_prefs)
 
 
 @app.route("/<name>")
