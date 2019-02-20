@@ -1,6 +1,8 @@
 $(".teachers > li").click(handlePrefs);
 $(".classes > li").click(togglePref);
 
+console.log($("#class-prefs").data("class-prefs"));
+
 var prefs = $.parseJSON($("#class-prefs").data("class-prefs").replace(/'/g, '"'));
 var currentTeacher = null;
 
