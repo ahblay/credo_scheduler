@@ -47,6 +47,11 @@ def add_teachers():
     return render_template('add_teachers.html', errors=errors)
 
 
+@app.route('/add_classes')
+def add_classes():
+    return render_template('add_classes.html')
+
+
 @app.route('/prefs')
 def enter_prefs():
     return render_template('prefs.html')
