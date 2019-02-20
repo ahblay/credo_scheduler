@@ -4,7 +4,7 @@ $(".classes > li").click(togglePref);
 console.log($("#class-prefs").data("class-prefs"));
 
 var prefs;
-if ($("#class-prefs").data("class-prefs") == {}) {
+if ($("#class-prefs").data("class-prefs") == "{}") {
     prefs = {};
 } else {
     prefs = $.parseJSON($("#class-prefs").data("class-prefs").replace(/'/g, '"'));
