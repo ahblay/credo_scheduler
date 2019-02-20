@@ -8,13 +8,20 @@ console.log(prefs);
 
 function handlePrefs() {
     currentTeacher = $(this).text();
-    console.log(currentTeacher);
     let teacherPrefs = prefs[currentTeacher];
+
+    toggleSelected($(this));
     clearPrefs();
     $.each(teacherPrefs, function(k, v) {
-        console.log(k, v);
         updatePrefs(k, v);
     })
+}
+
+function toggleSelected(li) {
+    $(".teachers > li").each(function() {
+        $(this).removeClass("selected");
+    })
+    li.addClass("selected");
 }
 
 function clearPrefs() {
