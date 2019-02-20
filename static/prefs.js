@@ -3,7 +3,12 @@ $(".classes > li").click(togglePref);
 
 console.log($("#class-prefs").data("class-prefs"));
 
-var prefs = $.parseJSON($("#class-prefs").data("class-prefs").replace(/'/g, '"'));
+var prefs;
+if ($("#class-prefs").data("class-prefs") == {}) {
+    prefs = {};
+} else {
+    prefs = $.parseJSON($("#class-prefs").data("class-prefs").replace(/'/g, '"'));
+}
 var currentTeacher = null;
 
 console.log(prefs);
