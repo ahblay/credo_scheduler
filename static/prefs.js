@@ -38,6 +38,25 @@ function updatePrefs(course, pref) {
     }
 }
 
+function handleToggle(pref, course) {
+    let val;
+    if (pref == "reject") {
+        val = -1;
+    }
+    else if (pref == "indifferent") {
+        val = 0;
+    } else {
+        val = 1;
+    }
+    if (currentTeacher in prefs) {
+        prefs[currentTeacher][course] = val;
+    } else {
+        prefs[currentTeacher] = {};
+        prefs[currentTeacher][course] = val;
+    }
+    submitPrefs(currentTeacher, course, val);
+}
+
 function togglePref() {
     console.log(currentTeacher);
     let course = $(this).attr("id");
@@ -46,43 +65,19 @@ function togglePref() {
     }
     else if ($(this).hasClass("prefer")) {
         $(this).removeClass("prefer").addClass("indifferent");
-        if (currentTeacher in prefs) {
-            prefs[currentTeacher][course] = 0;
-        } else {
-            prefs[currentTeacher] = {};
-            prefs[currentTeacher][course] = 0;
-        }
-        submitPrefs(currentTeacher, course, 0);
+        handleToggle("indifferent", course);
     }
     else if ($(this).hasClass("indifferent")) {
         $(this).removeClass("indifferent").addClass("reject");
-        if (currentTeacher in prefs) {
-            prefs[currentTeacher][course] = -1;
-        } else {
-            prefs[currentTeacher] = {};
-            prefs[currentTeacher][course] = -1;
-        }
-        submitPrefs(currentTeacher, course, -1);
+        handleToggle("reject", course);
     }
     else if ($(this).hasClass("reject")) {
         $(this).removeClass("reject").addClass("prefer");
-        if (currentTeacher in prefs) {
-            prefs[currentTeacher][course] = 1;
-        } else {
-            prefs[currentTeacher] = {};
-            prefs[currentTeacher][course] = 1;
-        }
-        submitPrefs(currentTeacher, course, 1);
+        handleToggle("prefer", course);
     }
     else {
         $(this).addClass("prefer");
-        if (currentTeacher in prefs) {
-            prefs[currentTeacher][course] = 1;
-        } else {
-            prefs[currentTeacher] = {};
-            prefs[currentTeacher][course] = 1;
-        }
-        submitPrefs(currentTeacher, course, 1);
+        handleToggle("prefer", course);
     }
 }
 
