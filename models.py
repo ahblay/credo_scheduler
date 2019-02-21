@@ -25,14 +25,18 @@ class Classes(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String())
     subject = db.Column(db.String())
-    year = db.Column(db.Integer())
-    teachers = db.Column(ARRAY(db.String))
+    #year = db.Column(db.Integer())
+    #teachers = db.Column(ARRAY(db.String))
+    hours = db.Column(db.Integer())
+    type = db.Column(db.String())
 
-    def __init__(self, name, subject, year, teachers):
+    def __init__(self, name, subject, hours, type):
         self.name = name
         self.subject = subject
-        self.year = year
-        self.teachers = teachers
+        #self.year = year
+        #self.teachers = teachers
+        self.hours = hours
+        self.type = type
 
     def __repr__(self):
         return '<id {}>'.format(self.id)

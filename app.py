@@ -7,7 +7,7 @@ app.config.from_object(os.environ['APP_SETTINGS'])
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-from models import Teachers, ClassPrefs
+from models import Teachers, Classes, ClassPrefs
 
 
 def to_boolean(string):
@@ -25,6 +25,7 @@ def add_teachers():
         classes = request.form.getlist("classes[]")
         full_time = request.form.getlist("full_time[]")
         teacher_data = list(zip(names, classes, full_time))
+        print(teacher_data)
 
         try:
             for teacher in teacher_data:
@@ -45,9 +46,41 @@ def add_teachers():
     return render_template('add_teachers.html', errors=errors)
 
 
-@app.route('/add_classes')
+@app.route('/add_classes', methods=['GET', 'POST'])
 def add_classes():
-    return render_template('add_classes.html')
+    courses = []
+    if request.method == 'GET':
+        classes = Classes.query.all()
+        for course in classes:
+            data = [course.name, course.subject, course.type, course.hours]
+            courses.append(data)
+
+    if request.method == 'POST':
+        name = request.form['name']
+        subject = request.form['subject']
+        type = request.form['type']
+        hours = request.form['hours']
+
+        try:
+            to_update = Classes.query.filter_by(name=name).first()
+            if not to_update:
+                result = Classes(
+                    name=name,
+                    subject=subject,
+                    type=type,
+                    hours=hours
+                )
+                db.session.add(result)
+                db.session.commit()
+            else:
+                to_update.subject = subject
+                to_update.type = type
+                to_update.hours = hours
+                db.session.commit()
+        except Exception as e:
+            print(e)
+            print("Failed to update class.")
+    return render_template('add_classes.html', classes=courses)
 
 
 @app.route('/prefs', methods=['GET', 'POST'])

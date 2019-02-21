@@ -1,23 +1,35 @@
-$("#add-subj").click(addCard);
+$("#submit-class").click(submitClass);
 
-function addCard() {
-    let card = generateCard();
-    $(".classes").append(card);
+var classes;
+if ($.isEmptyObject($("#class-data").data("classes"))) {
+    classes = [];
+} else {
+    classes = $.parseJSON($("#class-data").data("classes").replace(/'/g, '"'));
+}
+console.log(classes);
+
+function submitClass() {
+    let name = $("#class-name").val();
+    let subject = $("#class-subject").val();
+    let type = $("#class-type").val();
+    let hours = $("#class-hours").val();
+
+    //updateClassList(name, subject, type, hours);
+
+    let data = {
+        "name": name,
+        "subject": subject,
+        "type": type,
+        "hours": hours
+    }
+    $.post("/add_classes", data);
 }
 
-function generateCard() {
-    let cardMain = document.createElement("div");
-    let cardHeader = document.createElement("h5");
-    let cardList = document.createElement("ul");
+function updateClassList(name, subject, type, hours) {
+    let data = [name, subject, type, hours];
+    classes.push(data);
 
-    $(cardMain).addClass("card");
-    $(cardHeader).addClass("card-header");
-    $(cardList).addClass("list-group").addClass("list-group-flush");
-
-    $(cardHeader).html("SAMPLE HEADER");
-    $(cardMain).css("width", "18rem");
-
-    $(cardMain).append(cardHeader).append(cardList);
-
-    return cardMain;
+    li = $(document).createElement("li");
+    $(li).text(name);
+    $("#classes").append(li);
 }

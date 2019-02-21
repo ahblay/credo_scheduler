@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta id="class-data" data-classes="{{ classes }}">
   <title>Add Classes</title>
   <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" media="screen">
   <link rel="stylesheet" href="/static/add_classes.css">
@@ -9,18 +10,51 @@
 <body>
   <div class="container">
     <h1>Add Classes</h1>
-    <div class="classes">
-      <div class="card margin" style="width: 18rem;">
-        <h5 class="card-header">Math</h5>
-        <ul class="list-group list-group-flush classes">
-          <li class="list-group-item">Algebra 1</li>
-          <li class="list-group-item">Calculus</li>
-          <li class="list-group-item">Geometry</li>
-        </ul>
-      </div>
-    </div>
+    <table id="classes" class="table">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Subject</th>
+          <th scope="col">Type</th>
+          <th scope="col">Hours</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for class in classes %}
+        <tr>
+          <td>{{ class[0] }}</td>
+          <td>{{ class[1] }}</td>
+          <td>{{ class[2] }}</td>
+          <td>{{ class[3] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <form id="add-class">
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          <label for="class-name">Name</label>
+          <input id="class-name" class="form-control" placeholder="E.g. American History">
+        </div>
 
-    <button id="add-subj">Add Subject</button>
+        <div class="form-group col-md-4">
+          <label for="class-subject">Subject</label>
+          <input id="class-subject" class="form-control" placeholder="E.g. Humanities, Culinary Impressions">
+        </div>
+
+        <div class="form-group col-md-2">
+          <label for="class-type">Type</label>
+          <input id="class-type" class="form-control" placeholder="E.g. Main Lesson">
+        </div>
+
+        <div class="form-group col-md-2">
+          <label for="class-hours">Hours/Week</label>
+          <input id="class-hours" class="form-control" placeholder="E.g. 2, 5, too many">
+        </div>
+      </div>
+      <button id="submit-class" class="btn btn-primary">Submit</button>
+    </form>
+
   </div>
 
   <script src="//code.jquery.com/jquery-2.2.1.min.js"></script>
