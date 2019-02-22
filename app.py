@@ -27,24 +27,25 @@ def add_teachers():
                 teachers.append(data)
 
     if request.method == "POST":
-        names = request.form.getlist('names[]')
-        classes = request.form.getlist("classes[]")
-        full_time = request.form.getlist("full_time[]")
-        teacher_data = list(zip(names, classes, full_time))
-        print(teacher_data)
+        name = request.form['name']
+        classes = request.form["classes"].split(", ")
+        primary = to_boolean(request.form["full_time"])
+        print(request.form['full_time'])
+        print(name, classes, primary)
 
         try:
-            for teacher in teacher_data:
-                name = teacher[0]
-                classes = teacher[1].split(", ")
-                primary = to_boolean(teacher[2])
+            to_update = Teachers.query.filter_by(name=name).first()
+            if not to_update:
                 result = Teachers(
                     name=name,
                     classes=classes,
                     primary=primary
                 )
                 db.session.add(result)
-            db.session.commit()
+                db.session.commit()
+            else:
+                to_update.classes = classes
+                to_update.primary = primary
         except Exception as e:
             print(e)
             print("Could not add to database")

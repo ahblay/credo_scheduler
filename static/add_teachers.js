@@ -1,5 +1,5 @@
-$("#add-teacher").click(addTeacher);
-$("#submit-teacher-form").click(submitTeachers);
+//$("#add-teacher").click(addTeacher);
+$("#submit-teacher").click(submitTeachers);
 
 var teachers;
 if ($.isEmptyObject($("#teacher-data").data("teachers"))) {
@@ -10,17 +10,20 @@ if ($.isEmptyObject($("#teacher-data").data("teachers"))) {
 console.log(teachers);
 
 function submitTeachers() {
-    let names = getFieldValues("#teacher-form", ".teacher-name");
-    let classes = getFieldValues("#teacher-form", ".eligible-classes");
-    let fullTime = getCheckboxValues("#teacher-form", ".full-time");
+    let name = $("#teacher-name").val();
+    let fullTime = $("#teacher-type").val();
+    let classes = $("#teacher-classes").val();
+
     let data = {
-        "names": names,
+        "name": name,
         "classes": classes,
         "full_time": fullTime
     }
+    console.log(data)
     $.post("/add_teachers", data);
 }
 
+/*
 function addTeacher() {
     let teacherForm = $("#teacher-form > .form-row").clone().slice(0, 2);
     for (i = 0; i < teacherForm.length; i++) {
@@ -48,3 +51,4 @@ function getCheckboxValues(formSelector, fieldSelector) {
     });
     return values;
 }
+*/

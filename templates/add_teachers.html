@@ -46,26 +46,29 @@
         <div class="form-row">
           <div class="form-group col-md-6">
             <label for="teacher-name">Name</label>
-            <input type="text" class="form-control teacher-name" placeholder="E.g. Irma Lazarus">
+            <input id="teacher-name" class="form-control" placeholder="E.g. Irma Lazarus">
           </div>
 
           <div class="form-group col-md-6">
-            <label for="eligible-classes">Eligible Classes</label>
-            <input type="text" class="form-control eligible-classes" placeholder="E.g. Canning, Botulism Awareness">
+            <label for="teacher-classes">Eligible Classes</label>
+            <input id="teacher-classes" class="form-control" placeholder="E.g. Canning, Botulism Awareness">
           </div>
         </div>
 
         <div class="form-row">
           <div class="form-group col-md-12">
-            <input type="checkbox" class="full-time">
-            <label for="full-time">Full-time?</label>
+            <input id="teacher-type" type="checkbox">
+            <label for="teacher-type">Full-time?</label>
           </div>
         </div>
 
+        <button class="btn btn-primary" id="submit-teacher">Submit</button>
+
       </form>
 
+      <!--
       <button class="btn btn-primary" id="add-teacher">Add teacher</button>
-      <button class="btn btn-primary" id="submit-teacher-form">Submit</button>
+      -->
 
       <br>
 
