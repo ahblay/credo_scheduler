@@ -46,6 +46,7 @@ def add_teachers():
             else:
                 to_update.classes = classes
                 to_update.primary = primary
+                db.session.commit()
         except Exception as e:
             print(e)
             print("Could not add to database")

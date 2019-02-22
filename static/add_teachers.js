@@ -11,8 +11,13 @@ console.log(teachers);
 
 function submitTeachers() {
     let name = $("#teacher-name").val();
-    let fullTime = $("#teacher-type").val();
     let classes = $("#teacher-classes").val();
+    let fullTime;
+    if ($("#teacher-type").is(":checked")) {
+        fullTime = true;
+    } else {
+        fullTime = false;
+    }
 
     let data = {
         "name": name,
