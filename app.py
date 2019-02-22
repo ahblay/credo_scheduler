@@ -19,7 +19,13 @@ def to_boolean(string):
 
 @app.route('/add_teachers', methods=['GET', 'POST'])
 def add_teachers():
-    errors = []
+    teachers = []
+    if request.method == "GET":
+        for teacher in Teachers.query.all():
+            if teacher.name:
+                data = [teacher.name, teacher.classes]
+                teachers.append(data)
+
     if request.method == "POST":
         names = request.form.getlist('names[]')
         classes = request.form.getlist("classes[]")
@@ -43,7 +49,7 @@ def add_teachers():
             print(e)
             print("Could not add to database")
 
-    return render_template('add_teachers.html', errors=errors)
+    return render_template('add_teachers.html', teachers=teachers)
 
 
 @app.route('/add_classes', methods=['GET', 'POST'])
