@@ -1,5 +1,5 @@
-//$("#add-teacher").click(addTeacher);
 $("#submit-teacher").click(submitTeachers);
+$(".delete-row").click(removeRow);
 
 var teachers;
 if ($.isEmptyObject($("#teacher-data").data("teachers"))) {
@@ -28,32 +28,28 @@ function submitTeachers() {
     $.post("/add_teachers", data);
 }
 
-/*
-function addTeacher() {
-    let teacherForm = $("#teacher-form > .form-row").clone().slice(0, 2);
-    for (i = 0; i < teacherForm.length; i++) {
-        $(teacherForm[i]).find("input").val('').prop("checked", false);
-    };
-    teacherForm.appendTo("#teacher-form");
-};
-
-function getFieldValues(formSelector, fieldSelector) {
-    let values = [];
-    $(formSelector).find(fieldSelector).map(function() {
-        values.push($(this).val());
-    });
-    return values;
-}
-
-function getCheckboxValues(formSelector, fieldSelector) {
-    let values = [];
-    $(formSelector).find(fieldSelector).map(function() {
-        if ($(this).is(":checked")) {
-            values.push(true);
-        } else {
-            values.push(false);
+function removeRow() {
+    $(this).closest("tr").remove();
+    let name = $(this).closest("tr").children().first().text();
+    let updated_teachers = [];
+    let to_delete = [];
+    for (let i = 0; i < teachers.length; i++) {
+        if (teachers[i][0] != name) {
+            updated_teachers.push(teachers[i]);
         }
-    });
-    return values;
+    }
+    teachers = updated_teachers;
+    dbDelete(name);
 }
-*/
+
+function dbDelete(item) {
+    let table_name = "teachers";
+
+    let data = {
+        "item": item,
+        'table_name': table_name
+    }
+
+    $.post("/delete", data);
+}
+

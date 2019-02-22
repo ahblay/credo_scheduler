@@ -24,6 +24,7 @@
           <tr>
             <th scope="col">Name</th>
             <th scope="col">Classes</th>
+            <th scope="col">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -35,6 +36,11 @@
               {{ class }}{% if not loop.last %},
               {% endif %}
               {% endfor %}
+            </td>
+            <td>
+              <a class="delete-row">
+                <i>&#xE872;</i>
+              </a>
             </td>
           </tr>
           {% endfor %}

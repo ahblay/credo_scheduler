@@ -136,6 +136,25 @@ def enter_prefs():
     return render_template('prefs.html', prefs=class_prefs)
 
 
+@app.route("/delete", methods=["POST"])
+def delete():
+    if request.method == "POST":
+        item = request.form["item"]
+        table_name = request.form["table_name"]
+        if table_name == "teachers":
+            to_delete = Teachers.query.filter_by(name=item).all()
+            for i in to_delete:
+                db.session.delete(i)
+                db.session.commit()
+        if table_name == "classes":
+            pass
+        if table_name == 'class_prefs':
+            pass
+        else:
+            return f" Failed to remove {item} from {table_name}."
+    return f"Removed {item} from {table_name}."
+
+
 @app.route("/<name>")
 def hello_name(name):
     return f"Hello {name}"
