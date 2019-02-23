@@ -147,7 +147,10 @@ def delete():
                 db.session.delete(i)
                 db.session.commit()
         if table_name == "classes":
-            pass
+            to_delete = Classes.query.filter_by(name=item).all()
+            for i in to_delete:
+                db.session.delete(i)
+                db.session.commit()
         if table_name == 'class_prefs':
             pass
         else:

@@ -17,6 +17,7 @@
           <th scope="col">Subject</th>
           <th scope="col">Type</th>
           <th scope="col">Hours</th>
+          <th scope="col">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -26,6 +27,11 @@
           <td>{{ class[1] }}</td>
           <td>{{ class[2] }}</td>
           <td>{{ class[3] }}</td>
+          <td>
+            <a class="delete-row">
+              <i>&#xE872;</i>
+            </a>
+          </td>
         </tr>
         {% endfor %}
       </tbody>

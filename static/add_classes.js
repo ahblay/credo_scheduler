@@ -1,4 +1,5 @@
 $("#submit-class").click(submitClass);
+$(".delete-row").click(removeRow);
 
 var classes;
 if ($.isEmptyObject($("#class-data").data("classes"))) {
@@ -14,8 +15,6 @@ function submitClass() {
     let type = $("#class-type").val();
     let hours = $("#class-hours").val();
 
-    //updateClassList(name, subject, type, hours);
-
     let data = {
         "name": name,
         "subject": subject,
@@ -25,11 +24,27 @@ function submitClass() {
     $.post("/add_classes", data);
 }
 
-function updateClassList(name, subject, type, hours) {
-    let data = [name, subject, type, hours];
-    classes.push(data);
+function removeRow() {
+    $(this).closest("tr").remove();
+    let name = $(this).closest("tr").children().first().text();
+    let updated_classes = [];
+    let to_delete = [];
+    for (let i = 0; i < classes.length; i++) {
+        if (classes[i][0] != name) {
+            updated_classes.push(classes[i]);
+        }
+    }
+    classes = updated_classes;
+    dbDelete(name);
+}
 
-    li = $(document).createElement("li");
-    $(li).text(name);
-    $("#classes").append(li);
+function dbDelete(item) {
+    let table_name = "classes";
+
+    let data = {
+        "item": item,
+        'table_name': table_name
+    }
+
+    $.post("/delete", data);
 }
