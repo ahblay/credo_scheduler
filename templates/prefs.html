@@ -19,6 +19,11 @@
 
     <div class="sidebar">
       <ul class="list-group teachers">
+        {% for teacher in teachers %}
+        <li class="list-group-item">{{ teacher[0] }}</li>
+        {% endfor %}
+
+        <!--
         <li class="list-group-item">Harrington</li>
         <li class="list-group-item">Lambert</li>
         <li class="list-group-item">Baker</li>
@@ -31,10 +36,30 @@
         <li class="list-group-item">Krausz</li>
         <li class="list-group-item">Wahanik</li>
         <li class="list-group-item">Elam</li>
+        -->
       </ul>
     </div>
 
     <div class="main">
+
+      {% set subjects = [] %}
+      {% for class in classes %}
+      {% if class[1] not in subjects %}
+      {% do subjects.append(class[1]) %}
+      <div class="card margin">
+        <h5 class="card-header">{{ class[1] }}</h5>
+        <ul class="list-group list-group-flush classes">
+          {% for item in classes %}
+          {% if item[1] == class[1] %}
+          <li class="list-group-item">{{ item[0] }}</li>
+          {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+      {% endfor %}
+
+      <!--
       <div class="card margin">
         <h5 class="card-header">Math</h5>
           <ul class="list-group list-group-flush classes">
@@ -98,6 +123,7 @@
           </ul>
       </div>
     </div>
+    -->
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"
             integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
