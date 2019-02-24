@@ -1,13 +1,30 @@
 $("#submit-teacher").click(submitTeachers);
 $(".delete-row").click(removeRow);
 
+var ids = [
+    "teachers"
+]
 var teachers;
-if ($.isEmptyObject($("#teacher-data").data("teachers"))) {
-    teachers = [];
-} else {
-    teachers = $.parseJSON($("#teacher-data").data("teachers").replace(/'/g, '"'));
+
+$(function() {
+    let data = loadData(ids);
+    teachers = data[0];
+    console.log(teachers);
+});
+
+function loadData(ids) {
+    let data = ids.map(function(id) {
+        let item;
+        if ($.isEmptyObject($("#" + id + "-data").data(id))) {
+            item = {};
+        } else {
+            item = $.parseJSON($("#" + id + "-data").data(id).replace(/'/g, '"'));
+        }
+        return item;
+    });
+
+    return data;
 }
-console.log(teachers);
 
 function submitTeachers() {
     let name = $("#teacher-name").val();

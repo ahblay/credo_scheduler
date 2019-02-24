@@ -1,15 +1,39 @@
 $(".teachers > li").click(handlePrefs);
 $(".classes > li").click(togglePref);
 
+var ids = [
+    "class-prefs",
+    "teachers",
+    "classes"
+]
 var prefs;
-if ($.isEmptyObject($("#class-prefs").data("class-prefs"))) {
-    prefs = {};
-} else {
-    prefs = $.parseJSON($("#class-prefs").data("class-prefs").replace(/'/g, '"'));
-}
+var teachers;
+var classes;
 var currentTeacher = null;
 
-console.log(prefs);
+$(function() {
+    let data = loadData(ids);
+    prefs = data[0];
+    teachers = data[1];
+    classes = data[2];
+    console.log(prefs);
+    console.log(teachers);
+    console.log(classes);
+});
+
+function loadData(ids) {
+    let data = ids.map(function(id) {
+        let item;
+        if ($.isEmptyObject($("#" + id + "-data").data(id))) {
+            item = {};
+        } else {
+            item = $.parseJSON($("#" + id + "-data").data(id).replace(/'/g, '"'));
+        }
+        return item;
+    });
+
+    return data;
+}
 
 function handlePrefs() {
     currentTeacher = $(this).text();

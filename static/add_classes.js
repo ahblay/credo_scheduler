@@ -1,13 +1,30 @@
 $("#submit-class").click(submitClass);
 $(".delete-row").click(removeRow);
 
+var ids = [
+    "classes"
+]
 var classes;
-if ($.isEmptyObject($("#class-data").data("classes"))) {
-    classes = [];
-} else {
-    classes = $.parseJSON($("#class-data").data("classes").replace(/'/g, '"'));
+
+$(function() {
+    let data = loadData(ids);
+    classes = data[0];
+    console.log(classes);
+});
+
+function loadData(ids) {
+    let data = ids.map(function(id) {
+        let item;
+        if ($.isEmptyObject($("#" + id + "-data").data(id))) {
+            item = {};
+        } else {
+            item = $.parseJSON($("#" + id + "-data").data(id).replace(/'/g, '"'));
+        }
+        return item;
+    });
+
+    return data;
 }
-console.log(classes);
 
 function submitClass() {
     let name = $("#class-name").val();
