@@ -28,7 +28,6 @@ Preferences
 </div>
 
 <div class="main">
-
   {% set subjects = [] %}
   {% for class in classes %}
   {% if class[1] not in subjects %}
@@ -48,7 +47,7 @@ Preferences
 </div>
 
 <div class="footer">
-  <a class="btn btn-success pull-right" href="#">Create schedule!</a>
+  <a class="btn btn-success pull-right" href="/results">Create schedule!</a>
 </div>
 {% endblock %}
 

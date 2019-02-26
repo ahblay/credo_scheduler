@@ -1,6 +1,7 @@
 import os
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
+from scheduler import Schedule
 
 app = Flask(__name__)
 app.config.from_object(os.environ['APP_SETTINGS'])
@@ -26,8 +27,6 @@ def add_teachers():
         name = request.form['name']
         classes = request.form["classes"].split(", ")
         primary = to_boolean(request.form["full_time"])
-        print(request.form['full_time'])
-        print(name, classes, primary)
 
         update_teachers(db, name, classes, primary)
 
@@ -66,15 +65,21 @@ def enter_prefs():
         teacher_name = request.form["teacher"]
         class_name = request.form["class"]
         pref = request.form["pref"]
-
-        print(teacher_name, class_name, pref)
-
         update_prefs(db, teacher_name, class_name, pref)
 
-    print(prefs)
-    print(teachers)
-    print(classes)
     return render_template('prefs.html', prefs=prefs, classes=classes, teachers=teachers)
+
+
+@app.route("/results", methods=["GET", "POST"])
+def results():
+    if request.method == "GET":
+        prefs = get_prefs()
+        classes = get_classes()
+        teachers = get_teachers()
+        s = Schedule(prefs, classes, teachers)
+        s.print_data()
+        s.build_schedule()
+    return render_template('schedule.html')
 
 
 @app.route("/delete", methods=["POST"])
