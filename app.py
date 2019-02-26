@@ -11,6 +11,11 @@ db = SQLAlchemy(app)
 from utilities import *
 
 
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+
 @app.route('/add_teachers', methods=['GET', 'POST'])
 def add_teachers():
     teachers = []

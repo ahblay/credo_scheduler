@@ -1,88 +1,74 @@
-<!DOCTYPE html>
-<html>
-  <head>
+{% extends "base.html" %}
 
-    <title>Teachers</title>
-    <meta id="teachers-data" data-teachers="{{ teachers }}">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" media="screen">
+{% block data %}
+<meta id="teachers-data" data-teachers="{{ teachers }}">
+{% endblock %}
 
-    <style>
-      .container {
-        max-width: 1000px;
-      }
-    </style>
+{% block title %}
+Teachers
+{% endblock %}
 
-  </head>
-  <body>
-    <div class="container">
+{% block stylesheets %}
+{% endblock %}
 
-      <h1>Enter Teachers</h1>
+{% block content %}
+<h1>Enter Teachers</h1>
 
-      <table id="teachers" class="table">
-        <thead>
-          <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Classes</th>
-            <th scope="col">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for teacher in teachers %}
-          <tr>
-            <td>{{ teacher[0] }}</td>
-            <td>
-              {% for class in teacher[1] %}
-              {{ class }}{% if not loop.last %},
-              {% endif %}
-              {% endfor %}
-            </td>
-            <td>
-              <a class="delete-row">
-                <i>&#xE872;</i>
-              </a>
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+<table id="teachers" class="table">
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Classes</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for teacher in teachers %}
+    <tr>
+      <td>{{ teacher[0] }}</td>
+      <td>
+        {% for class in teacher[1] %}
+        {{ class }}{% if not loop.last %},
+        {% endif %}
+        {% endfor %}
+      </td>
+      <td>
+        <a class="delete-row">
+          <i>&#xE872;</i>
+        </a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
 
-      <form id="teacher-form">
+<form id="teacher-form">
 
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label for="teacher-name">Name</label>
-            <input id="teacher-name" class="form-control" placeholder="E.g. Irma Lazarus">
-          </div>
-
-          <div class="form-group col-md-6">
-            <label for="teacher-classes">Eligible Classes</label>
-            <input id="teacher-classes" class="form-control" placeholder="E.g. Canning, Botulism Awareness">
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group col-md-12">
-            <input id="teacher-type" type="checkbox">
-            <label for="teacher-type">Full-time?</label>
-          </div>
-        </div>
-
-        <button class="btn btn-primary" id="submit-teacher">Submit</button>
-
-      </form>
-
-      <!--
-      <button class="btn btn-primary" id="add-teacher">Add teacher</button>
-      -->
-
-      <br>
-
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="teacher-name">Name</label>
+      <input id="teacher-name" class="form-control" placeholder="E.g. Irma Lazarus">
     </div>
 
-    <script src="//code.jquery.com/jquery-2.2.1.min.js"></script>
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <script src="/static/add_teachers.js" type="text/javascript"></script>
+    <div class="form-group col-md-6">
+      <label for="teacher-classes">Eligible Classes</label>
+      <input id="teacher-classes" class="form-control" placeholder="E.g. Canning, Botulism Awareness">
+    </div>
+  </div>
 
-  </body>
-</html>
+  <div class="form-row">
+    <div class="form-group col-md-12">
+      <input id="teacher-type" type="checkbox">
+      <label for="teacher-type">Full-time?</label>
+    </div>
+  </div>
+
+  <button class="btn btn-primary" id="submit-teacher">Submit</button>
+
+</form>
+<a class="btn btn-success pull-right" href="/prefs">Next</a>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/add_teachers.js" type="text/javascript"></script>
+{% endblock %}

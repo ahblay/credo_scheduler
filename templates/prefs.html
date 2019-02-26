@@ -1,140 +1,58 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta id="class-prefs-data" data-class-prefs="{{ prefs }}">
-    <meta id="teachers-data" data-teachers="{{ teachers }}">
-    <meta id="classes-data" data-classes="{{ classes }}">
-    <title>Preferences</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-          crossorigin="anonymous">
-    <link rel="stylesheet" href="/static/prefs.css">
-  </head>
+{% extends "base.html" %}
 
-  <body class="container">
-    <header class="header">
-      <h1>Enter Preferences</h1>
-    </header>
+{% block data %}
+<meta id="class-prefs-data" data-class-prefs="{{ prefs }}">
+<meta id="teachers-data" data-teachers="{{ teachers }}">
+<meta id="classes-data" data-classes="{{ classes }}">
+{% endblock %}
 
-    <div class="sidebar">
-      <ul class="list-group teachers">
-        {% for teacher in teachers %}
-        <li class="list-group-item">{{ teacher[0] }}</li>
-        {% endfor %}
+{% block title %}
+Preferences
+{% endblock %}
 
-        <!--
-        <li class="list-group-item">Harrington</li>
-        <li class="list-group-item">Lambert</li>
-        <li class="list-group-item">Baker</li>
-        <li class="list-group-item">FitzGibbon</li>
-        <li class="list-group-item">Farais</li>
-        <li class="list-group-item">Bliquez</li>
-        <li class="list-group-item">Germain</li>
-        <li class="list-group-item">Landers</li>
-        <li class="list-group-item">Hutchen</li>
-        <li class="list-group-item">Krausz</li>
-        <li class="list-group-item">Wahanik</li>
-        <li class="list-group-item">Elam</li>
-        -->
-      </ul>
-    </div>
+{% block stylesheets %}
+<link rel="stylesheet" href="/static/prefs.css">
+{% endblock %}
 
-    <div class="main">
+{% block content %}
+<header class="header">
+  <h1>Enter Preferences</h1>
+</header>
 
-      {% set subjects = [] %}
-      {% for class in classes %}
-      {% if class[1] not in subjects %}
-      {% do subjects.append(class[1]) %}
-      <div class="card margin">
-        <h5 class="card-header">{{ class[1] }}</h5>
-        <ul class="list-group list-group-flush classes">
-          {% for item in classes %}
-          {% if item[1] == class[1] %}
-          <li class="list-group-item" id="{{ item[4] }}">{{ item[0] }}</li>
-          {% endif %}
-          {% endfor %}
-        </ul>
-      </div>
+<div class="sidebar">
+  <ul class="list-group teachers">
+    {% for teacher in teachers %}
+    <li class="list-group-item">{{ teacher[0] }}</li>
+    {% endfor %}
+  </ul>
+</div>
+
+<div class="main">
+
+  {% set subjects = [] %}
+  {% for class in classes %}
+  {% if class[1] not in subjects %}
+  {% do subjects.append(class[1]) %}
+  <div class="card margin">
+    <h5 class="card-header">{{ class[1] }}</h5>
+    <ul class="list-group list-group-flush classes">
+      {% for item in classes %}
+      {% if item[1] == class[1] %}
+      <li class="list-group-item" id="{{ item[4] }}">{{ item[0] }}</li>
       {% endif %}
       {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+  {% endfor %}
+</div>
 
-      <!--
-      <div class="card margin">
-        <h5 class="card-header">Math</h5>
-          <ul class="list-group list-group-flush classes">
-            <li class="list-group-item" id="alg1">Algebra 1</li>
-            <li class="list-group-item" id="calc">Calculus</li>
-            <li class="list-group-item" id="geo">Geometry</li>
-          </ul>
-      </div>
+<div class="footer">
+  <a class="btn btn-success pull-right" href="#">Create schedule!</a>
+</div>
+{% endblock %}
 
-      <div class="card margin">
-        <h5 class="card-header">Sciences</h5>
-          <ul class="list-group list-group-flush classes">
-            <li class="list-group-item" id="phy">Physics</li>
-            <li class="list-group-item" id="bio">Biology</li>
-            <li class="list-group-item" id="chem">Chemistry</li>
-          </ul>
-      </div>
+{% block scripts %}
+<script src="/static/prefs.js" type="text/javascript"></script>
+{% endblock %}
 
-      <div class="card margin">
-        <h5 class="card-header">Humanities</h5>
-          <ul class="list-group list-group-flush classes">
-            <li class="list-group-item" id="amhis">American History</li>
-            <li class="list-group-item" id="worhis">World History</li>
-            <li class="list-group-item" id="currev">Current Events</li>
-          </ul>
-      </div>
-
-      <div class="card margin">
-        <h5 class="card-header">Music</h5>
-          <ul class="list-group list-group-flush classes">
-            <li class="list-group-item" id="wormus">World Music</li>
-            <li class="list-group-item" id="orch">Orchestra</li>
-            <li class="list-group-item" id="cho">Choir</li>
-          </ul>
-      </div>
-
-      <div class="card margin">
-        <h5 class="card-header">Art</h5>
-          <ul class="list-group list-group-flush classes">
-            <li class="list-group-item" id="pai">Painting</li>
-            <li class="list-group-item" id="scu">Sculpture</li>
-            <li class="list-group-item" id="blopr">Block Printing</li>
-          </ul>
-      </div>
-
-      <div class="card margin">
-        <h5 class="card-header">Language</h5>
-          <ul class="list-group list-group-flush classes">
-            <li class="list-group-item" id="spa">Spanish</li>
-            <li class="list-group-item" id="man">Mandarin</li>
-            <li class="list-group-item" id="ara">Arabic</li>
-          </ul>
-      </div>
-
-      <div class="card margin">
-        <h5 class="card-header">PE</h5>
-          <ul class="list-group list-group-flush classes">
-            <li class="list-group-item" id="eur">Eurythmy</li>
-            <li class="list-group-item" id="jai">Jai Alai</li>
-            <li class="list-group-item" id="gam">Games</li>
-          </ul>
-      </div>
-    </div>
-    -->
-
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
-            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-            crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-            crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-            crossorigin="anonymous"></script>
-    <script src="/static/prefs.js" type="text/javascript"></script>
-
-  </body>
-</html>
