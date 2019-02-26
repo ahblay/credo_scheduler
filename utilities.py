@@ -20,7 +20,7 @@ def get_teachers():
 def get_classes():
     courses = []
     for course in Classes.query.all():
-        data = [course.name, course.subject, course.type, course.hours]
+        data = [course.name, course.subject, course.type, course.hours, course.code]
         courses.append(data)
     return courses
 

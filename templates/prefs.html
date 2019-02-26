@@ -51,7 +51,7 @@
         <ul class="list-group list-group-flush classes">
           {% for item in classes %}
           {% if item[1] == class[1] %}
-          <li class="list-group-item">{{ item[0] }}</li>
+          <li class="list-group-item" id="{{ item[4] }}">{{ item[0] }}</li>
           {% endif %}
           {% endfor %}
         </ul>

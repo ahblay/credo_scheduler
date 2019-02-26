@@ -66,6 +66,9 @@ def enter_prefs():
 
         update_prefs(db, teacher_name, class_name, pref)
 
+    print(prefs)
+    print(teachers)
+    print(classes)
     return render_template('prefs.html', prefs=prefs, classes=classes, teachers=teachers)
 
 

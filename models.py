@@ -29,6 +29,7 @@ class Classes(db.Model):
     #teachers = db.Column(ARRAY(db.String))
     hours = db.Column(db.Integer())
     type = db.Column(db.String())
+    code = db.Column(db.String())
 
     def __init__(self, name, subject, hours, type):
         self.name = name
@@ -37,6 +38,7 @@ class Classes(db.Model):
         #self.teachers = teachers
         self.hours = hours
         self.type = type
+        self.code = name[0:3]
 
     def __repr__(self):
         return '<id {}>'.format(self.id)
