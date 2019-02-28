@@ -2,6 +2,7 @@ import os
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 from scheduler import Schedule
+from pprint import pprint as pp
 
 app = Flask(__name__)
 app.config.from_object(os.environ['APP_SETTINGS'])
@@ -72,14 +73,17 @@ def enter_prefs():
 
 @app.route("/results", methods=["GET", "POST"])
 def results():
+    schedule = {}
     if request.method == "GET":
         prefs = get_prefs()
         classes = get_classes()
         teachers = get_teachers()
         s = Schedule(prefs, classes, teachers)
         s.print_data()
-        s.build_schedule()
-    return render_template('schedule.html')
+        schedule = s.build_schedule()
+        pp(schedule)
+    pp("Sync test!")
+    return render_template('schedule.html', schedule=schedule)
 
 
 @app.route("/delete", methods=["POST"])

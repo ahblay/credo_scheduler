@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block data %}
+<meta id="schedule-data" data-schedule="{{ schedule }}">
 {% endblock %}
 
 {% block title %}
@@ -8,11 +9,60 @@ Schedule
 {% endblock %}
 
 {% block stylesheets %}
+<link rel="stylesheet" href="/static/schedule.css">
 {% endblock %}
 
 {% block content %}
 <h1>Schedule</h1>
+<div class="schedule-grid">
+  <div class="day monday">
+    <div class="period one"></div>
+    <div class="period two"></div>
+    <div class="period three"></div>
+    <div class="period four"></div>
+    <div class="period five"></div>
+    <div class="period six"></div>
+    <div class="period seven"></div>
+  </div>
+  <div class="day tuesday">
+    <div class="period one"></div>
+    <div class="period two"></div>
+    <div class="period three"></div>
+    <div class="period four"></div>
+    <div class="period five"></div>
+    <div class="period six"></div>
+    <div class="period seven"></div>
+  </div>
+  <div class="day wednesday">
+    <div class="period one"></div>
+    <div class="period two"></div>
+    <div class="period three"></div>
+    <div class="period four"></div>
+    <div class="period five"></div>
+    <div class="period six"></div>
+    <div class="period seven"></div>
+  </div>
+  <div class="day thursday">
+    <div class="period one"></div>
+    <div class="period two"></div>
+    <div class="period three"></div>
+    <div class="period four"></div>
+    <div class="period five"></div>
+    <div class="period six"></div>
+    <div class="period seven"></div>
+  </div>
+  <div class="day friday">
+    <div class="period one"></div>
+    <div class="period two"></div>
+    <div class="period three"></div>
+    <div class="period four"></div>
+    <div class="period five"></div>
+    <div class="period six"></div>
+    <div class="period seven"></div>
+  </div>
+</div>
 {% endblock %}
 
 {% block scripts %}
+<script src="/static/schedule.js" type="text/javascript"></script>
 {% endblock %}
