@@ -139,8 +139,8 @@ class Schedule:
             if self.classes[course][2] == "Main Lesson":
                 schedule_model += lpSum(x[var_matrix[period][day][course][teacher]]
                                         for teacher, period in self.product_range(self.num_teachers, [0, 1])) == 2
-            schedule_model += lpSum(x[var_matrix[period][day][course][teacher]]
-                                    for teacher, period in self.product_range(self.num_teachers, [2, 3, 4, 5, 6])) == 0
+                schedule_model += lpSum(x[var_matrix[period][day][course][teacher]]
+                                        for teacher, period in self.product_range(self.num_teachers, [2, 3, 4, 5, 6])) == 0
 
         # main lesson must be taught by the same teacher
 
