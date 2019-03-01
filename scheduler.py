@@ -156,8 +156,6 @@ class Schedule:
                                                                                    self.periods)) \
                               == self.classes[course][3]
 
-        pp(x[var_matrix[0][0][0][0]])
-
         schedule_model.solve()
         status = LpStatus[schedule_model.status]
 

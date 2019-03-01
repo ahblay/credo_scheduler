@@ -25,8 +25,9 @@ function loadData(ids) {
 }
 
 function createCourseDiv() {
-    let p = document.createElement("p");
-    return p;
+    let div = document.createElement("div");
+    $(div).addClass("course");
+    return div;
 }
 
 function renderSchedule() {
