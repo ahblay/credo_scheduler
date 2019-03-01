@@ -127,14 +127,30 @@ class Schedule:
             schedule_model += lpSum(x[var_matrix[period][day][course][teacher]] for teacher in self.num_teachers) \
                               <= 1
 
-        # a class cannot occur more than once per day
-        for teacher, course, period in self.product_range(self.num_teachers, self.num_classes, self.periods):
-            schedule_model += lpSum(x[var_matrix[period][day][course][teacher]] for day in self.num_days) \
-                              <= 1
+        # a track class cannot occur more than once per day and main lesson must occur in periods 1&2
+        for course, day in self.product_range(self.num_classes, self.num_days):
+            if self.classes[course][2] == "Track":
+                schedule_model += lpSum(x[var_matrix[period][day][course][teacher]]
+                                        for teacher, period in self.product_range(self.num_teachers, self.periods)) <= 1
+            if self.classes[course][2] == "Main Lesson":
+                schedule_model += lpSum(x[var_matrix[period][day][course][teacher]]
+                                        for teacher, period in self.product_range(self.num_teachers, [0, 1])) == 2
+
+        # main lesson must be taught by the same teacher
 
         # thursday is a half day
         for teacher, course in self.product_range(self.num_teachers, self.num_classes):
             schedule_model += lpSum(x[var_matrix[period][3][course][teacher]] for period in [4, 5, 6]) == 0
+
+        # proper number of periods per week
+        for course in self.num_classes:
+            schedule_model += lpSum(x[var_matrix[period][day][course][teacher]]
+                                    for teacher, day, period in self.product_range(self.num_teachers,
+                                                                                   self.num_days,
+                                                                                   self.periods)) \
+                              == self.classes[course][3]
+
+        pp(x[var_matrix[0][0][0][0]])
 
         schedule_model.solve()
         status = LpStatus[schedule_model.status]
