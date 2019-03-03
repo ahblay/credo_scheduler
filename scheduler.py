@@ -140,9 +140,21 @@ class Schedule:
                 schedule_model += lpSum(x[var_matrix[period][day][course][teacher]]
                                         for teacher, period in self.product_range(self.num_teachers, [0, 1])) == 2
                 schedule_model += lpSum(x[var_matrix[period][day][course][teacher]]
-                                        for teacher, period in self.product_range(self.num_teachers, [2, 3, 4, 5, 6])) == 0
+                                        for teacher, period in self.product_range(self.num_teachers, [2, 3, 4, 5, 6])) \
+                                  == 0
 
-        # main lesson must be taught by the same teacher
+        # each class gets one teacher
+        for teacher, course in self.product_range(self.num_teachers, self.num_classes):
+            # big M method for categorical constraints
+            x1 = LpVariable(name=f"x_1_{teacher}_{course}", cat="Binary")
+            x2 = LpVariable(name=f"x_2_{teacher}_{course}", cat="Binary")
+            schedule_model += lpSum([x1, x2]) == 1
+            schedule_model += lpSum(x[var_matrix[period][day][course][teacher]]
+                                    for day, period in self.product_range(self.num_days, self.periods)) - \
+                              (x1 * self.classes[course][3]) <= 0
+            schedule_model += lpSum(x[var_matrix[period][day][course][teacher]]
+                                    for day, period in self.product_range(self.num_days, self.periods)) + \
+                              (x2 * self.classes[course][3]) >= self.classes[course][3]
 
         # thursday is a half day
         for teacher, course in self.product_range(self.num_teachers, self.num_classes):
