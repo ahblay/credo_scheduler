@@ -63,8 +63,9 @@ class SameTeacherPerClass(Constraint):
 
 
 class OneTrackClassPerDay(Constraint):
-    def __init__(self, t, c, d, p, x, prob, vm):
+    def __init__(self, t, c, d, p, x, prob, vm, classes):
         self.description = "A track class cannot occur more than once per day."
+        self.classes = classes
         super().__init__(t, c, d, p, x, prob, vm)
 
     def info(self):
@@ -72,8 +73,9 @@ class OneTrackClassPerDay(Constraint):
 
     def build(self):
         for course, day in product_range(self.c, self.d):
-            self.prob += lpSum(self.x[self.vm[period][day][course][teacher]]
-                               for teacher, period in product_range(self.t, self.p)) <= 1
+            if self.classes[course][2] == "Track":
+                self.prob += lpSum(self.x[self.vm[period][day][course][teacher]]
+                                   for teacher, period in product_range(self.t, self.p)) <= 1
 
 
 class ThursdayHalfDay(Constraint):
@@ -103,3 +105,37 @@ class CorrectNumberClasses(Constraint):
             self.prob += lpSum(self.x[self.vm[period][day][course][teacher]]
                                for teacher, day, period in product_range(self.t, self.d, self.p)) \
                         == self.classes[course][3]
+
+
+class MainLessonPeriods(Constraint):
+    def __init__(self, t, c, d, p, x, prob, vm, classes):
+        self.description = "Main lesson occurs in periods one and two."
+        self.classes = classes
+        super().__init__(t, c, d, p, x, prob, vm)
+
+    def info(self):
+        print(self.description)
+
+    def build(self):
+        for course, day in product_range(self.c, self.d):
+            if self.classes[course][2] == "Main Lesson":
+                self.prob += lpSum(self.x[self.vm[period][day][course][teacher]]
+                                   for teacher, period in product_range(self.t, [0, 1])) == 2
+                self.prob += lpSum(self.x[self.vm[period][day][course][teacher]]
+                                   for teacher, period in product_range(self.t, [2, 3, 4, 5, 6])) == 0
+
+
+class TrackClassPeriods(Constraint):
+    def __init__(self, t, c, d, p, x, prob, vm, classes):
+        self.description = "A track class cannot occur more than once per day."
+        self.classes = classes
+        super().__init__(t, c, d, p, x, prob, vm)
+
+    def info(self):
+        print(self.description)
+
+    def build(self):
+        for course, day in product_range(self.c, self.d):
+            if self.classes[course][2] == "Track":
+                self.prob += lpSum(self.x[self.vm[period][day][course][teacher]]
+                                   for teacher, period in product_range(self.t, [0, 1])) == 0
