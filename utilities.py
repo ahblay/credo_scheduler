@@ -1,4 +1,5 @@
 from models import *
+from itertools import product
 
 
 def to_boolean(string):
@@ -97,3 +98,7 @@ def update_prefs(db, teacher_name, class_name, pref):
     except Exception as e:
         print(e)
         print("Could not update database.")
+
+
+def product_range(*args):
+    return list(product(*args))

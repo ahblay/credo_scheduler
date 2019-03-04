@@ -1,7 +1,6 @@
 import os
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
-from scheduler import Schedule
 from pprint import pprint as pp
 
 app = Flask(__name__)
@@ -10,6 +9,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.jinja_env.add_extension('jinja2.ext.do')
 db = SQLAlchemy(app)
 
+from scheduler import Schedule
 from utilities import *
 
 
@@ -80,7 +80,8 @@ def results():
         teachers = get_teachers()
         s = Schedule(prefs, classes, teachers)
         s.print_data()
-        schedule = s.build_schedule()
+        # schedule = s.build_schedule()
+        schedule = s.build_track_classes()
         pp(schedule)
     pp("Sync test!")
     return render_template('schedule.html', schedule=schedule)
