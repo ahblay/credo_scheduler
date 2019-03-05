@@ -107,7 +107,7 @@ class CorrectNumberClasses(Constraint):
                         == self.classes[course][3]
 
 
-class MainLessonPeriods(Constraint):
+class MainLessonPeriodsTrue(Constraint):
     def __init__(self, t, c, d, p, x, prob, vm, classes):
         self.description = "Main lesson occurs in periods one and two."
         self.classes = classes
@@ -121,6 +121,20 @@ class MainLessonPeriods(Constraint):
             if self.classes[course][2] == "Main Lesson":
                 self.prob += lpSum(self.x[self.vm[period][day][course][teacher]]
                                    for teacher, period in product_range(self.t, [0, 1])) == 2
+
+
+class MainLessonPeriodsFalse(Constraint):
+    def __init__(self, t, c, d, p, x, prob, vm, classes):
+        self.description = "Main lesson does not occur in periods 3, 4, 5, 6, or 7."
+        self.classes = classes
+        super().__init__(t, c, d, p, x, prob, vm)
+
+    def info(self):
+        print(self.description)
+
+    def build(self):
+        for course, day in product_range(self.c, self.d):
+            if self.classes[course][2] == "Main Lesson":
                 self.prob += lpSum(self.x[self.vm[period][day][course][teacher]]
                                    for teacher, period in product_range(self.t, [2, 3, 4, 5, 6])) == 0
 

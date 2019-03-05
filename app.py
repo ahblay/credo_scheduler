@@ -80,9 +80,9 @@ def results():
         teachers = get_teachers()
         s = Schedule(prefs, classes, teachers)
         s.print_data()
-        # schedule = s.build_schedule()
+        schedule = s.build_schedule()
         # schedule = s.build_track_classes()
-        schedule = s.build_main_lessons()
+        # schedule = s.build_main_lessons()
         print(schedule)
     return render_template('schedule.html', schedule=schedule)
 
