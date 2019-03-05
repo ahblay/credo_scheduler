@@ -127,7 +127,7 @@ class Schedule:
                                   upBound=1,
                                   cat=pulp.LpInteger)
 
-        schedule_model = pulp.LpProblem("Schedule", pulp.LpMaximize)
+        schedule_model = pulp.LpProblem("Track Classes", pulp.LpMaximize)
         objective = lpSum([self.get_coefficient(tcdp) * x[tcdp] for tcdp in vars])
         schedule_model += objective
 
@@ -137,13 +137,77 @@ class Schedule:
         OneTrackClassPerDay(t, c, d, p, x, schedule_model, vm, classes).build()
         ThursdayHalfDay(t, c, d, p, x, schedule_model, vm).build()
         CorrectNumberClasses(t, c, d, p, x, schedule_model, vm, classes).build()
-        TrackClassPeriods(t, c, d, p, x, schedule_model, vm, classes).build()
 
         schedule_model.solve()
         status = LpStatus[schedule_model.status]
 
-        # pp(schedule_model.constraints)
-        # print(schedule_model.constraints)
+        selected_tcdp = []
+        for tcdp in vars:
+            if x[tcdp].value() == 1.0:
+                selected_tcdp.append(tcdp)
+
+        #schedule = self.restructure_results(selected_tcdp)
+
+        if status == "Infeasible":
+            return status
+        else:
+            return selected_tcdp
+
+    def build_main_lessons(self):
+        schedule = self.build_track_classes()
+        if schedule == "Infeasible":
+            raise ValueError("Building track classes led to an infeasible schedule.")
+        pp(schedule)
+
+        main_lessons = [course[0] for course in self.classes if course[2] == "Main Lesson"]
+
+        ml_teachers = []
+        for teacher in self.teachers:
+            for course in teacher[1]:
+                if course in main_lessons:
+                    ml_teachers.append(teacher[0])
+
+        t = self.num_teachers
+        c = self.num_classes
+        d = self.num_days
+        p = self.periods
+        classes = self.classes
+
+        vm = self.build_vars()
+        vars = self.get_variables_list(vm)
+
+        x = pulp.LpVariable.dicts('x', vars,
+                                  lowBound=0,
+                                  upBound=1,
+                                  cat=pulp.LpInteger)
+
+        schedule_model = pulp.LpProblem("Main Lesson", pulp.LpMaximize)
+        objective = lpSum([self.get_coefficient(tcdp) * x[tcdp] for tcdp in vars])
+        schedule_model += objective
+
+        for item in schedule:
+            if item[0] in ml_teachers:
+                possible_combos = []
+                for teacher in self.teachers:
+                    i = list(item)
+                    i[0] = teacher[0]
+                    possible_combos.append(tuple(i))
+                pp(possible_combos)
+                schedule_model += lpSum(x[combo] for combo in possible_combos) == 1
+            else:
+                schedule_model += x[item] == 1
+
+        #OneClassPerTeacher(t, c, d, p, x, schedule_model, vm).build()
+        #OneTeacherPerClass(t, c, d, p, x, schedule_model, vm).build()
+        SameTeacherPerClass(t, c, d, p, x, schedule_model, vm, classes).build()
+        OneTrackClassPerDay(t, c, d, p, x, schedule_model, vm, classes).build()
+        #ThursdayHalfDay(t, c, d, p, x, schedule_model, vm).build()
+        #CorrectNumberClasses(t, c, d, p, x, schedule_model, vm, classes).build()
+        MainLessonPeriods(t, c, d, p, x, schedule_model, vm, classes).build()
+        TrackClassPeriods(t, c, d, p, x, schedule_model, vm, classes).build()
+
+        schedule_model.solve()
+        status = LpStatus[schedule_model.status]
 
         selected_tcdp = []
         for tcdp in vars:

@@ -139,3 +139,4 @@ class TrackClassPeriods(Constraint):
             if self.classes[course][2] == "Track":
                 self.prob += lpSum(self.x[self.vm[period][day][course][teacher]]
                                    for teacher, period in product_range(self.t, [0, 1])) == 0
+
