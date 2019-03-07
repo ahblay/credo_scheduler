@@ -9,6 +9,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.jinja_env.add_extension('jinja2.ext.do')
 db = SQLAlchemy(app)
 
+from genetic_scheduler import GeneticScheduler
 from scheduler import Schedule
 from utilities import *
 
@@ -79,11 +80,14 @@ def results():
         classes = get_classes()
         teachers = get_teachers()
         s = Schedule(prefs, classes, teachers)
-        s.print_data()
-        schedule = s.build_schedule()
+        # s.print_data()
+        # schedule = s.build_schedule()
         # schedule = s.build_track_classes()
         # schedule = s.build_main_lessons()
-        print(schedule)
+        # print(schedule)
+        g = GeneticScheduler(prefs, classes, teachers)
+        g.init_problem()
+        schedule = g.run()
     return render_template('schedule.html', schedule=schedule)
 
 
