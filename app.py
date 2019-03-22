@@ -10,6 +10,7 @@ app.jinja_env.add_extension('jinja2.ext.do')
 db = SQLAlchemy(app)
 
 from genetic_scheduler import GeneticScheduler
+from genetic_alg import Genetic
 from scheduler import Schedule
 from utilities import *
 
@@ -85,7 +86,8 @@ def results():
         # schedule = s.build_track_classes()
         # schedule = s.build_main_lessons()
         # print(schedule)
-        g = GeneticScheduler(prefs, classes, teachers)
+        g = Genetic(prefs, classes, teachers)
+        g.print_data()
         g.init_problem()
         schedule = g.run()
     return render_template('schedule.html', schedule=schedule)
